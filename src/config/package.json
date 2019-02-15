@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "normalize.css": "^8.0.1",
+    "vue-awesome": "^3.3.1"
+  }
+}
