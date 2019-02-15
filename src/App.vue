@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="fillcontain">
     <el-container>
       <el-header class="header">
         <vheader/>
@@ -28,7 +28,8 @@
   }
 </script>
 
-<style>
+<style lang="less">
+  @import './style/common';
   .header {
     background-color: #409EFF;
     color: #fff;

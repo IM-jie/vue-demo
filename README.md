@@ -35,6 +35,8 @@ cnpm i vue-awesome
 # 添加懒加载
 cnpm install --save-dev babel-plugin-syntax-dynamic-import
 
+# 安装less
+cnpm i less less-loader -g
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
