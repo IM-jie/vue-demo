@@ -5,10 +5,10 @@
         <vheader/>
       </el-header>
       <el-container>
-        <el-aside width="200px">
+        <el-aside width="10%">
           <navmenu></navmenu>
         </el-aside>
-        <el-main><router-view></router-view></el-main>
+        <el-main width="90%"><router-view></router-view></el-main>
       </el-container>
     </el-container>
 
