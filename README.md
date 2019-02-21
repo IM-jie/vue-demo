@@ -37,6 +37,14 @@ cnpm install --save-dev babel-plugin-syntax-dynamic-import
 
 # 安装less
 cnpm i less less-loader -g
+
+# g6-editor
+cnpm i @antv/g6-editor --save
+
+# 安装sass
+npm install --save-dev sass-loader
+//sass-loader依赖于node-sass
+npm install --save-dev node-sass
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
