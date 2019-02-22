@@ -117,7 +117,8 @@
 </template>
 
 <script>
-  import G6 from '@antv/g6'
+  import G6 from '@antv/g6';
+  import '@antv/g6/build/plugin.tool.grid';
 
   export default {
     name: "index",
@@ -168,21 +169,6 @@
         infoTitle: '画布',//属性标题
         oldColor: '',    //获取节点本身颜色
         type: '',        //有值为编辑状态
-
-        nodes: [{
-          id: 'node1',
-          x: 100,
-          y: 200
-        },{
-          id: 'node2',
-          x: 300,
-          y: 200
-        }],
-        edges: [{
-          id: 'edge1',
-          target: 'node2',
-          source: 'node1'
-        }]
       }
     },
     methods: {
@@ -191,27 +177,17 @@
         self.Util = G6.Util;
         let grid;
         if (self.checked) {
-          grid = {
-            forceAlign: true, // 是否支持网格对齐
-            cell: 25,         // 网格大小
-          };
+          grid = new G6.Plugins['tool.grid']();
         } else {
           grid = null;
         }
-        // self.net = new G6.Net({
-          // id: 'flowChart',      // 容器ID
-          // mode: 'edit',
-          // grid: grid,
-          // /*width: 500,    // 画布宽*/
-          // height: 800    // 画布高
-        // });
         self.net = new G6.Graph({
-          container: 'flowChart',
-          // width:500,
-          width: 1000,
-          height:800
+          id: 'flowChart',      // 容器ID
+          mode: 'edit',
+          grid: grid,
+          width: 500,    // 画布宽
+          height: 800    // 画布高
         });
-
         /*self.net.tooltip({
           title: '信息', // @type {String} 标题
           split: ':',  // @type {String} 分割符号
@@ -219,69 +195,68 @@
           dy: 0        // @type {Number} 竖直偏移
         });*/
 
-        // /**
-        //  *点击空白处
-        //  */
-        // self.net.on('click', (ev) => {
-        //   if (!self.Util.isNull(ev.item)) {
-        //     self.isBlank = false
-        //   } else {
-        //     self.isBlank = true;
-        //     self.infoTitle = '画布'
-        //   }
-        // });
-        // /**
-        //  *点击节点
-        //  */
-        // self.net.on('itemclick', function (ev) {
-        //   self.isNode = self.Util.isNode(ev.item);   //是否为Node
-        //   self.activation = ev.item;
-        //   if (self.isNode) {
-        //     /* 激活节点后节点名称input聚焦*/
-        //     self.$nextTick(()=>{
-        //       self.$refs.inputFocus.$el.querySelector('input').focus();
-        //     });
-        //     self.infoTitle = '节点';
-        //     self.name = ev.item.get('model').label;
-        //     self.func = ev.item.get('model').func;
-        //     self.account = ev.item.get('model').account || [];
-        //     self.workflow = ev.item.get('model').workflow;
-        //     self.nodeType = ev.item.get('model').nodeType;
-        //   } else {
-        //     self.infoTitle = '边';
-        //     self.action = ev.item.get('model').action;
-        //   }
-        //   self.color = self.oldColor;
-        // });
-        // /**
-        //  * 鼠标移入移出事件改变颜色
-        //  */
-        // self.net.on('itemmouseenter', ev => {
-        //   const item = ev.item;
-        //   self.oldColor = item.get('model').color;     //获取节点颜色
-        //   self.net.update(item, {
-        //     color: '#108EE9',
-        //   });
-        //   self.net.refresh();
-        // });
-        // self.net.on('itemmouseleave', ev => {
-        //   const item = ev.item;
-        //   self.net.update(item, {
-        //     color: self.oldColor
-        //   });
-        //   self.net.refresh();
-        // });
-        // /**
-        //  * 提示信息
-        //  */
-        // /* self.net.node().tooltip(['label', 'func', 'role', 'color']);
-        //  self.net.edge().tooltip(['label', 'color']);*/
-        // /**
-        //  * 渲染
-        //  */
-        // /*self.net.source(self.nodes, self.edges);*/  //加载资源数据
-        // self.net.render();
-        self.net.read(this.nodes);
+        /**
+         *点击空白处
+         */
+        self.net.on('click', (ev) => {
+          if (!self.Util.isNull(ev.item)) {
+            self.isBlank = false
+          } else {
+            self.isBlank = true;
+            self.infoTitle = '画布'
+          }
+        });
+        /**
+         *点击节点
+         */
+        self.net.on('itemclick', function (ev) {
+          self.isNode = self.Util.isNode(ev.item);   //是否为Node
+          self.activation = ev.item;
+          if (self.isNode) {
+            /* 激活节点后节点名称input聚焦*/
+            self.$nextTick(()=>{
+              self.$refs.inputFocus.$el.querySelector('input').focus();
+            });
+            self.infoTitle = '节点';
+            self.name = ev.item.get('model').label;
+            self.func = ev.item.get('model').func;
+            self.account = ev.item.get('model').account || [];
+            self.workflow = ev.item.get('model').workflow;
+            self.nodeType = ev.item.get('model').nodeType;
+          } else {
+            self.infoTitle = '边';
+            self.action = ev.item.get('model').action;
+          }
+          self.color = self.oldColor;
+        });
+        /**
+         * 鼠标移入移出事件改变颜色
+         */
+        self.net.on('itemmouseenter', ev => {
+          const item = ev.item;
+          self.oldColor = item.get('model').color;     //获取节点颜色
+          self.net.update(item, {
+            color: '#108EE9',
+          });
+          self.net.refresh();
+        });
+        self.net.on('itemmouseleave', ev => {
+          const item = ev.item;
+          self.net.update(item, {
+            color: self.oldColor
+          });
+          self.net.refresh();
+        });
+        /**
+         * 提示信息
+         */
+        /* self.net.node().tooltip(['label', 'func', 'role', 'color']);
+         self.net.edge().tooltip(['label', 'color']);*/
+        /**
+         * 渲染
+         */
+        /*self.net.source(self.nodes, self.edges);*/  //加载资源数据
+        self.net.render();
       },
       addCircle() {
         this.net.beginAdd('node', {
